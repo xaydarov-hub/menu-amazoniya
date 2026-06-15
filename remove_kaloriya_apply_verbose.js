@@ -1,0 +1,24 @@
+const fs = require('fs');
+const path = require('path');
+const file = path.join(__dirname, 'src', 'data', 'menuData.js');
+let txt = fs.readFileSync(file, 'utf8');
+const startMarker = '// ── 1. ПРАВИЛЬНОЕ ПИТАНИЕ';
+const endMarker = '// ── 2.';
+const startIdx = txt.indexOf(startMarker);
+if (startIdx === -1) { console.error('Start marker not found'); process.exit(1); }
+const endIdx = txt.indexOf(endMarker, startIdx);
+const pre = txt.slice(0, startIdx);
+const mid = txt.slice(startIdx, endIdx === -1 ? txt.length : endIdx);
+const post = endIdx === -1 ? '' : txt.slice(endIdx);
+const kalRe = /\r?\n\s*kaloriya\s*:\s*[^,\r\n]+,?/g;
+const totalBefore = (txt.match(/\bkaloriya\s*:/g) || []).length;
+const pre2 = pre.replace(kalRe, '');
+const post2 = post.replace(kalRe, '');
+const newTxt = pre2 + mid + post2;
+const totalAfter = (newTxt.match(/\bkaloriya\s*:/g) || []).length;
+fs.copyFileSync(file, file + '.bak');
+fs.writeFileSync(file, newTxt, 'utf8');
+console.log('totalBefore', totalBefore);
+console.log('totalAfter', totalAfter);
+console.log('backup', file + '.bak');
+console.log('wrote', file);
