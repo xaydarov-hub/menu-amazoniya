@@ -16,11 +16,11 @@ import {
 const TG = {
   food: {
     token:  "8518803010:AAET7XeNo3mHaPH3NRhrnaO7AjDcJTX0Fos",
-    chatId: "5916247309",
+    chatId: "6290796444",
   },
   bar: {
     token:  "8901302980:AAGDR69P77LtrZbP81o5TKzK3QzQFQuPhrY",
-    chatId: "5916247309",
+    chatId: "6290796444",
   },
 };
 
